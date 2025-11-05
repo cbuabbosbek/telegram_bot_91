@@ -31,6 +31,15 @@ bot.on("message", async function (msg) {
         🦅 Lamborghini Urus
 The Lamborghini Urus is the ultimate Super SUV — a fusion of luxury, power, and speed. 💨With a 650 HP twin-turbo V8, it sprints from 0–100 km/h in just 3.6s while keeping you in pure comfort and style. 🏁🔥
         `,
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: "Rasmlar", callback_data: "photos" },
+              { text: "Batafsil", callback_data: "info" },
+            ],
+            [{ text: "Sotib olish", callback_data: "buy" }],
+          ],
+        },
       });
     }, 1000);
   } else if (text == "Menu 🥩") {
@@ -40,6 +49,45 @@ The Lamborghini Urus is the ultimate Super SUV — a fusion of luxury, power, an
   } else {
     bot.sendMessage(chatId, "❗️ Xatolik, iltimos /start tugmasini bosing... ");
   }
+});
+
+bot.on("callback_query", function (query) {
+  const chatId = query.message.chat.id;
+  const firstName = query.message.chat.first_name;
+  const data = query.data;
+  
+  console.log(`chatId: ${chatId} ==> data: ${data}`);
+  if (data == "photos") {
+    bot.sendMessage(chatId, "Rasmlar");
+  } else if (data == "info") {
+    bot.sendMessage(chatId, "Batafsil ma'lumot");
+  } else if (data == "buy") {
+    bot.sendMessage(
+      chatId,
+      `Hurmatli ${firstName},
+Siz lamborghini sotib olish uchun Avazbekga $180,000 berdingizmi?
+    `,
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: "Tasdiqlash ✅", callback_data: "yes_lambo" },
+              { text: "Bekor qilish ❌", callback_data: "cancel_lambo" },
+            ],
+          ],
+        },
+      }
+    );
+  } else if (data == "yes_lambo") {
+    bot.sendMessage(
+      chatId,
+      `Tabriklaymiz ${firstName}, siz Lamborghini sotib oldingiz! 🎉`
+    );
+  } else if (data == "cancel_lambo") {
+    bot.sendMessage(chatId, `Buyurtma muvaffaqiyatli bekor qilindi! ❌`);
+  }
+
+  // console.log(query);
 });
 
 // npm install nodemon --save-dev
