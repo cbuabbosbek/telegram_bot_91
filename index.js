@@ -4,7 +4,9 @@ const TOKEN = "8473837135:AAHZqsGdnGkhgzpGUH00UPhHy1O85rT5pIg";
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
-bot.on("message", function (msg) {
+let lamboPhotoURL = "./images/lamborghini_urus.webp";
+
+bot.on("message", async function (msg) {
   const chatId = msg.chat.id;
   const text = msg.text;
   const firstname = msg.chat.first_name;
@@ -19,7 +21,18 @@ bot.on("message", function (msg) {
       },
     });
   } else if (text == "Boshlash 🔥") {
-    bot.sendMessage(chatId, "Boshlanyaptii....");
+    const xabar = await bot.sendMessage(chatId, "Iltimos kuting....");
+
+    setTimeout(function () {
+      bot.deleteMessage(chatId, xabar.message_id);
+
+      bot.sendPhoto(chatId, lamboPhotoURL, {
+        caption: `
+        🦅 Lamborghini Urus
+The Lamborghini Urus is the ultimate Super SUV — a fusion of luxury, power, and speed. 💨With a 650 HP twin-turbo V8, it sprints from 0–100 km/h in just 3.6s while keeping you in pure comfort and style. 🏁🔥
+        `,
+      });
+    }, 1000);
   } else if (text == "Menu 🥩") {
     bot.sendMessage(chatId, "Menyuga xush kelibsiz....");
   } else if (text == "Sozlamalar ⚙️") {
